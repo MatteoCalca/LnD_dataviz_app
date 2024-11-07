@@ -1,0 +1,12 @@
+name: LnD_dataviz_app
+title: LnD_dataviz_app
+username: matteocalca
+account: matteocalca
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 13264499
+bundleId: 9329481
+url: https://matteocalca.shinyapps.io/LnD_dataviz_app/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
