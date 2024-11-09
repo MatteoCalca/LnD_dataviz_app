@@ -8,15 +8,19 @@ fluidPage(
   titlePanel("L&D fund - Data Explorer"),
 
   sidebarPanel(
-    radioButtons("damage_function",label = "Select a damage function",choices = unique(damages_by_country$IMP)),
-    radioButtons("responsibility",label = "Select a responsibility principle",choices = unique(compensation_by_country$resp))),  
+    radioButtons("damage_function",label = "Damage function",choices = unique(damages_by_country$IMP)),
+    radioButtons("responsibility",label = "Responsibility principle",choices = unique(compensation_by_country$resp))),  
   
   mainPanel(  
     tabsetPanel(
       tabPanel("Compensation table",
                tableOutput("table_compensation")),
       tabPanel("Damages table",
-               tableOutput("table_damages"))
+               tableOutput("table_damages")),
+      tabPanel("Compensation graph",
+               plotOutput("graph_compensation")),
+      tabPanel("Damages graph",
+               plotOutput("graph_damages"))
     )
   )
 
