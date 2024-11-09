@@ -9,19 +9,22 @@ fluidPage(
 
   sidebarPanel(
     radioButtons("damage_function",label = "Damage function",choices = unique(damages_by_country$IMP)),
-    radioButtons("responsibility",label = "Responsibility principle",choices = unique(compensation_by_country$resp))),  
+    radioButtons("damage_unit", label = "Unit of damages", choices = c("% GDP","Billion USD")),
+    checkboxInput("fixed_fill", label = "Fixed colors across\ndamage function",value = F),
+    radioButtons("responsibility",label = "Responsibility principle",choices = unique(compensation_by_country$resp))),
   
   mainPanel(  
-    tabsetPanel(
-      tabPanel("Compensation table",
-               tableOutput("table_compensation")),
-      tabPanel("Damages table",
-               tableOutput("table_damages")),
-      tabPanel("Compensation graph",
-               plotOutput("graph_compensation")),
-      tabPanel("Damages graph",
-               plotOutput("graph_damages"))
-    )
+    #tabsetPanel(
+      # tabPanel("Compensation table",
+      #          tableOutput("table_compensation")),
+      # tabPanel("Damages table",
+      #          tableOutput("table_damages")),
+      # tabPanel("Compensation graph",
+      #          plotOutput("graph_compensation")),
+      #tabPanel("Damages graph",
+               plotOutput("graph_damages")
+               #)
+    #)
   )
 
 
