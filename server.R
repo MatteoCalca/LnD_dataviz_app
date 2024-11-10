@@ -1,25 +1,14 @@
-library(shiny)
-library(ggplot2)
-library(giscoR)
-library(sf)
-library(tidyverse)
-library(plotly)
-library(scales)
-library(bslib)
 
-source("process_data.R")
+
 
 function(input, output) {
-  
-
   
   # Graph damages
   target_variable_damages <- reactive({case_when(input$damage_unit == "% GDP" ~ "damages_percGDP",
                                                  input$damage_unit == "Billion USD" ~ "damn")})
   graph_damages <- reactive(map_damages %>% filter(IMP %in% c(input$damage_function,NA)))
   output$graph_damages <- renderPlot({
-      graph_damages_plot <- 
-        ggplot(data = graph_damages(), aes(fill=.data[[target_variable_damages()]]))+
+      graph_damages_plot <- ggplot(data = graph_damages(), aes(fill=.data[[target_variable_damages()]]))+
         geom_sf() +
         theme_void() +
         labs(title = paste0("Damages: ",input$damage_function, " (",input$damage_unit,")"),fill="") +
@@ -63,8 +52,7 @@ function(input, output) {
                                    summarise(comp = sum(comp), gni = sum(gni,na.rm = T)) %>% 
                                    mutate(compensation_percGDP = (comp/1000) / (gni*100)))
   output$graph_compensation <- renderPlot({
-    graph_compensation_plot <-
-      ggplot(data = graph_compensation(),
+    graph_compensation_plot <- ggplot(data = graph_compensation(),
              aes(x=reorder(n,.data[[target_variable_compensation()]]),
                  y=.data[[target_variable_compensation()]],
                  fill=.data[[target_variable_compensation()]]))+

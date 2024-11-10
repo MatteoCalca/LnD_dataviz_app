@@ -1,3 +1,11 @@
+library(shiny)
+library(ggplot2)
+library(giscoR)
+library(sf)
+library(tidyverse)
+library(plotly)
+library(scales)
+library(bslib)
 
 source("functions.R")
 
@@ -11,13 +19,11 @@ world_map<- giscoR::gisco_get_countries(resolution = "60") %>%
   select(n=ISO3_CODE, geometry) %>% 
   f$rename_country(country_column = n)
 
-damages_by_country <-
-  read.csv("data/damages_by_country.csv") %>%
+damages_by_country <- read.csv("damages_by_country.csv") %>%
   filter(n!="row") %>% 
   f$clean_data() 
   
-damages_by_country <-
-  bind_rows(damages_by_country,
+damages_by_country <- bind_rows(damages_by_country,
             damages_by_country %>% 
               group_by(n,gnipc,gni,income) %>% 
               summarise(damn = mean(damn)) %>% 
@@ -26,16 +32,14 @@ damages_by_country <-
          damn = damn * 1000,
          IMP = factor(IMP,levels = c("Mean across functions","Empirical, national","Empirical, sub-national","Process-based"),ordered=T)) #bnUSD
 
-compensation_by_country <-
-  read.csv("data/Compensation_by_country.csv") %>%
+compensation_by_country <- read.csv("compensation_by_country.csv") %>%
   filter(n!="row") %>% 
   f$clean_data() %>% 
   f$rename_responsibility(resp_column = resp) %>% 
   left_join(damages_by_country %>% select(n,IMP,gni)) %>%  # Join national GDP
   filter(n!="Venezuela")
   
-compensation_by_country <-
-  bind_rows(compensation_by_country,
+compensation_by_country <- bind_rows(compensation_by_country,
             compensation_by_country %>% 
               group_by(n,resp,income,gni) %>% 
               summarise(comp = mean(comp)) %>% 

@@ -5,7 +5,7 @@ account: matteocalca
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 13264499
-bundleId: 9329481
+bundleId: 9342073
 url: https://matteocalca.shinyapps.io/LnD_dataviz_app/
 version: 1
 asMultiple: FALSE
