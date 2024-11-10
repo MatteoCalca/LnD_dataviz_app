@@ -1,17 +1,34 @@
-library(shiny)
-library(ggplot2)
 
-dataset <- diamonds
+
 
 fluidPage(
   
   titlePanel("L&D fund - Data Explorer"),
-
+  
+  tags$style(HTML("
+    .js-irs-0 .irs-single, 
+    .js-irs-0 .irs-min, 
+    .js-irs-0 .irs-max, 
+    .js-irs-0 .irs-grid-text {
+      display: none;
+    }
+  ")),
+  
   sidebarPanel(
-    radioButtons("damage_function",label = "Damage function",choices = unique(damages_by_country$IMP)),
-    radioButtons("damage_unit", label = "Unit of damages", choices = c("% GDP","Billion USD")),
-    checkboxInput("fixed_fill", label = "Fixed colors across\ndamage function",value = F),
-    radioButtons("responsibility",label = "Responsibility principle",choices = unique(compensation_by_country$resp))),
+    width=2,
+    # Common inputs
+    radioButtons("damage_unit", label = "Unit", choices = c("Billion USD","% GDP")),
+    checkboxInput("fixed_fill", label = "Fixed legend",value = T),
+    tags$hr(),
+    # Damages input (valid for both damages and compensation)
+    radioButtons("damage_function",label = "Damage function",choices = levels(damages_by_country$IMP)),
+    tags$hr(),
+    # Compensation input
+    radioButtons("responsibility",label = "Responsibility principle",choices = levels(compensation_by_country$resp)),
+    sliderInput("binning_index",
+                label = "Columns: ⬅ More | Less ➡", 
+                min = 0.04 ,max = 0.3, step = 0.02,value = 0.16,ticks = F)
+    ),
   
   mainPanel(  
     #tabsetPanel(
@@ -22,7 +39,8 @@ fluidPage(
       # tabPanel("Compensation graph",
       #          plotOutput("graph_compensation")),
       #tabPanel("Damages graph",
-               plotOutput("graph_damages")
+               plotOutput("graph_damages"),
+               plotOutput(("graph_compensation"))
                #)
     #)
   )

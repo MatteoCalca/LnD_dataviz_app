@@ -14,6 +14,13 @@ f$rename_impacts <- function(data,impacts_column){
                                                 {{impacts_column}} == "coacch" ~ "Process-based"))
 }
 
+f$rename_responsibility <- function(data,resp_column){
+  data %>% mutate({{resp_column}}:=case_when({{resp_column}} == "share15" ~ "from 2015",
+                                             {{resp_column}} == "share50" ~ "from 1850",
+                                             {{resp_column}} == "share90" ~ "from 1990"),
+                  {{resp_column}} := factor({{resp_column}},levels=c("from 1850","from 1990","from 2015"),ordered = T))
+}
+
 f$clean_data <- function(data){
   data %>% 
     select(-X,-t,-POL) %>% 
