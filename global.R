@@ -29,8 +29,8 @@ damages_by_country <- bind_rows(damages_by_country,
               summarise(damn = mean(damn)) %>% 
               mutate(IMP = "Mean across functions")) %>% 
   mutate(damages_percGDP = damn/(gni*100), #tnUSD / tnUSD
-         damn = damn * 1000,
-         IMP = factor(IMP,levels = c("Mean across functions","Empirical, national","Empirical, sub-national","Process-based"),ordered=T)) #bnUSD
+         damn = damn * 1000, #bnUSD
+         IMP = factor(IMP,levels = c("Mean across functions","Empirical, national","Empirical, sub-national","Process-based"),ordered=T)) 
 
 compensation_by_country <- read.csv("compensation_by_country.csv") %>%
   filter(n!="row") %>% 
@@ -48,65 +48,4 @@ compensation_by_country <- bind_rows(compensation_by_country,
 
 map_damages <- left_join(world_map,damages_by_country)
 
-#map_compensation <- left_join(world_map,compensation_by_country)
-# 
-# compensation_binned <- compensation_by_country %>%
-#      filter(IMP %in% c(unique(map_damages$IMP)[3],NA),
-#             resp == unique(map_compensation$resp)[2]) %>%
-#   mutate(to_be_binned = if_else(abs(comp) < 0.01 * sum(abs(comp)),
-#                                 if_else(sign(comp) == 1,"binned_positive","binned_negative"),
-#                                 "not_binned"),
-#          n = case_when(to_be_binned == "not_binned" ~ n,
-#                        to_be_binned == "binned_positive" ~ "Other recipients",
-#                        to_be_binned == "binned_negative" ~ "Other donors")) %>%
-#   group_by(n) %>%
-#   summarise(comp = sum(comp), gni = sum(gni,na.rm = T)) %>%
-#   mutate(compensation_percGDP = (comp/1000) / (gni*100)) #tnUSD / tnUSD
-# #
-#   compensation_binned %>%
-#     mutate(dummy="dummy") %>%
-#   ggplot(aes(x=reorder(n,comp),y=comp,fill=comp,text=n))+
-#   geom_col(position = "dodge",color="black",linewidth=0.01) +
-#   geom_vline(xintercept = 0) +
-#   theme_void() +
-#     scale_fill_gradient2(low=color_palette$bars[["low"]], mid = color_palette$bars[["mid"]], high=color_palette$bars[["high"]], midpoint=0, na.value = "gray80")+
-#   theme(axis.line.y = element_blank(),
-#         axis.ticks.y = element_blank(),
-#         axis.title = element_blank(),
-#         axis.text.x = element_text(color = "gray20",angle = 45),
-#         axis.text.y = element_text(color = "gray20"),
-#         panel.grid.major.x  = element_line(color = "gray90"),
-#         legend.title = element_blank()) #-> p
-
-# 
-# ggplotly(p)
-
-
-# map_damages %>%
-#   filter(IMP %in% c(unique(map_damages$IMP)[3],NA)) %>%
-# ggplot(aes(fill=damages_percGDP))+
-#   geom_sf() +
-#   scale_fill_gradient2(low="#1446A0",
-#                          mid = "white",
-#                          high="#DB3069",
-#                          midpoint=0,
-#                          na.value = "gray80",
-#                          label = scales::label_percent(),
-#                          limits = c(min(map_damages$damages_percGDP,na.rm = T),max(map_damages$damages_percGDP,na.rm = T)))
-
-
-
-
-
-
-# compensation_by_country %>%
-#   mutate(comp_sign = sign(comp)) %>%
-#   group_by(IMP,resp,comp_sign) %>%
-#   summarize(comp = sum(comp)) %>%
-#   pivot_wider(names_from = resp,values_from = comp)
-# 
-# damages_by_country %>% 
-#   mutate(damn_sign = sign(damn)) %>% 
-#   group_by(IMP,damn_sign) %>% 
-#   summarize(damn = sum(damn), gni = sum(gni))
   
