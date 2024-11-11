@@ -12,7 +12,7 @@ function(input, output) {
         geom_sf() +
         theme_void() +
         labs(title = paste0("Economic damages: ",input$damage_function, " (",input$damage_unit,")"),fill="") +
-        theme(plot.title = element_text(size = 20, hjust = 0.5),
+        theme(plot.title = element_text(size = 16, hjust = 0.5),
               legend.text = element_text(size = 14))
     
         if (input$fixed_fill == T & input$damage_unit == "% GDP") {
@@ -63,7 +63,7 @@ function(input, output) {
             axis.text.y = element_text(color = "gray20", size = 14),
             panel.grid.major.x  = element_line(color = "gray90"),
             legend.title = element_blank(),
-            plot.title = element_text(size = 20, hjust = 0.5),
+            plot.title = element_text(size = 16, hjust = 0.5),
             legend.text = element_text(size = 14),
             plot.margin = unit(c(1,1,1,1),"cm"))+
       labs(title = paste0("L&D fund contribution: ",input$damage_function, " (",input$damage_unit,"), ",input$responsibility))+
