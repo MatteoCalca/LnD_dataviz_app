@@ -2,7 +2,7 @@
 
 
 function(input, output) {
-  
+
   # Graph damages
   target_variable_damages <- reactive({case_when(input$damage_unit == "% GDP" ~ "damages_percGDP",
                                                  input$damage_unit == "Billion USD" ~ "damn")})
@@ -12,7 +12,7 @@ function(input, output) {
         geom_sf() +
         theme_void() +
         labs(title = paste0("Damages: ",input$damage_function, " (",input$damage_unit,")"),fill="") +
-        theme(plot.title = element_text(size = 20),
+        theme(plot.title = element_text(size = 20, hjust = 0.5),
               legend.text = element_text(size = 14))
     
         if (input$fixed_fill == T & input$damage_unit == "% GDP") {
@@ -63,7 +63,7 @@ function(input, output) {
             axis.text.y = element_text(color = "gray20", size = 14),
             panel.grid.major.x  = element_line(color = "gray90"),
             legend.title = element_blank(),
-            plot.title = element_text(size = 20),
+            plot.title = element_text(size = 20, hjust = 0.5),
             legend.text = element_text(size = 14),
             plot.margin = unit(c(1,1,1,1),"cm"))+
       labs(title = paste0("Compensation: ",input$damage_function, " (",input$damage_unit,"), ",input$responsibility))+
@@ -94,7 +94,7 @@ function(input, output) {
     }
   
     print(graph_compensation_plot)
-  }, height=350)
+  })
 
 
   # 

@@ -1,9 +1,11 @@
 
 
 
-fluidPage(
+page_sidebar(
   
-  titlePanel("L&D fund - Data Explorer"),
+  theme = bs_theme(bootswatch = "flatly"),
+  
+  title = "L&D fund - Data Explorer",
   
   tags$style(HTML("
     .js-irs-0 .irs-single, 
@@ -14,8 +16,7 @@ fluidPage(
     }
   ")),
   
-  sidebarPanel(
-    width=2,
+  sidebar = sidebar(
     # Common inputs
     radioButtons("damage_unit", label = "Unit", choices = c("Billion USD","% GDP")),
     checkboxInput("fixed_fill", label = "Fixed legend",value = T),
@@ -26,24 +27,20 @@ fluidPage(
     # Compensation input
     radioButtons("responsibility",label = "Responsibility principle",choices = levels(compensation_by_country$resp)),
     sliderInput("binning_index",
-                label = "Columns: ⬅ More | Less ➡", 
-                min = 0.04 ,max = 0.3, step = 0.02,value = 0.16,ticks = F)
+                label = "Columns: ⬅More | Less➡", 
+                min = 0.04 ,max = 0.2, step = 0.02,value = 0.16,ticks = F)
     ),
   
-  mainPanel(  
-    #tabsetPanel(
-      # tabPanel("Compensation table",
-      #          tableOutput("table_compensation")),
-      # tabPanel("Damages table",
-      #          tableOutput("table_damages")),
-      # tabPanel("Compensation graph",
-      #          plotOutput("graph_compensation")),
-      #tabPanel("Damages graph",
-               plotOutput("graph_damages"),
-               plotOutput(("graph_compensation"))
-               #)
-    #)
+  card(full_screen = T,
+#       card_header(paste0("Damages: ",input$damage_function, " (",input$damage_unit,")")),
+       plotOutput("graph_damages")
+  ),
+  card(
+    full_screen = T,
+#    card_header(paste0("Compensation: ",input$damage_function, " (",input$damage_unit,"), ",input$responsibility)),
+    plotOutput(("graph_compensation"))
   )
+)
 
 
     # sliderInput('sampleSize', 'Sample Size', min=1, max=nrow(dataset),
@@ -63,4 +60,3 @@ fluidPage(
   # mainPanel(
   #   plotOutput('plot')
   # )
-)
