@@ -11,7 +11,7 @@ function(input, output) {
       graph_damages_plot <- ggplot(data = graph_damages(), aes(fill=.data[[target_variable_damages()]]))+
         geom_sf() +
         theme_void() +
-        labs(title = paste0("Damages: ",input$damage_function, " (",input$damage_unit,")"),fill="") +
+        labs(title = paste0("Economic damages: ",input$damage_function, " (",input$damage_unit,")"),fill="") +
         theme(plot.title = element_text(size = 20, hjust = 0.5),
               legend.text = element_text(size = 14))
     
@@ -66,7 +66,7 @@ function(input, output) {
             plot.title = element_text(size = 20, hjust = 0.5),
             legend.text = element_text(size = 14),
             plot.margin = unit(c(1,1,1,1),"cm"))+
-      labs(title = paste0("Compensation: ",input$damage_function, " (",input$damage_unit,"), ",input$responsibility))+
+      labs(title = paste0("L&D fund contribution: ",input$damage_function, " (",input$damage_unit,"), ",input$responsibility))+
       scale_fill_gradient2(low=color_palette$bars[["low"]], mid = color_palette$bars[["mid"]], high=color_palette$bars[["high"]], midpoint=0, na.value = "gray80")
       
     if (input$fixed_fill == T & input$damage_unit == "% GDP") {
